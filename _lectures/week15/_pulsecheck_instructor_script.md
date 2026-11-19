@@ -1,8 +1,8 @@
 # PulseCheck: Class Script (90 minutes)
 
-A minute-by-minute script for teaching the [PulseCheck lecture](lecture_pulsecheck.md) with the [student handout](lecture_pulsecheck_handout.md).
+A minute-by-minute script for teaching the [PulseCheck lecture](lecture_pulsecheck.md) .
 
-This file holds the answers. Its name starts with an underscore so that it is not published on the course website. The lecture page and the handout do not contain the answers.
+This file holds the answers. Its name starts with an underscore so that it is not published on the course website. The lecture page does not contain the answers.
 
 Each segment has four kinds of lines:
 
@@ -34,7 +34,6 @@ Times are a guide. If you run late, the cut list is at the end.
 - [ ] Check that `gemini-3.5-flash-lite` still works. Google retires models. If it returns 404, use the newest Flash-Lite model and update the lecture
 - [ ] Flash `pulsecheck_final` on your own Photon 2. Press through A to E, then set `PART = 2` and press through F to H. Write down what Gemini answered, so you know what students will see
 - [ ] Have two windows ready on the projector: the lecture page, and a serial monitor (`particle serial monitor --follow`)
-- [ ] Print the handout, one per pair
 - [ ] Post the starter zip link: `/resources/pulsecheck/pulsecheck_start.zip`
 
 ## 1. Hook and Demo (0:00 to 0:07)
@@ -54,9 +53,9 @@ Dataset A | Gemini: state=walking alert=0 msg="Steady walk, avg 100 bpm"
 **Ask:** "What could go wrong if a watch trusts the AI completely?"
 **Expect:** it misses a real emergency, or it raises a false alarm and scares someone. Either answer is good. Tell them they will see both today.
 
-**Say:** "There are two parts and a handout. I'll go over the answers at the end of each part."
+**Say:** "There are two parts. For each dataset, write down your own guess and what Gemini says. I'll go over the answers at the end of each part."
 
-**Students do:** find a partner, take one handout per pair.
+**Students do:** find a partner, and open a page of notes to record guesses and answers.
 
 ## 2. How It Works, and Why a Webhook (0:07 to 0:15)
 
@@ -140,14 +139,14 @@ const char* EVENT_NAME = "pulsecheck";
 **Ask:** "If this were the whole prompt, what would Gemini have to guess?"
 **Expect:** what the numbers are and their units, which words it's allowed to answer with, what counts as an alert, and how long the message can be.
 
-**Say:** "A good prompt answers five questions. Role: who is Gemini here? Input: what is the data and what units? Choices: what answers are allowed? Rules: how does it decide, and when is it an alert? Output: what should the reply look like? Plan one sentence for each on the handout, then type them into `TODO PROMPT`."
+**Say:** "A good prompt answers five questions. Role: who is Gemini here? Input: what is the data and what units? Choices: what answers are allowed? Rules: how does it decide, and when is it an alert? Output: what should the reply look like? Write one sentence for each, then type them into `TODO PROMPT`."
 
 **Ask:** "Your code checks for the word `resting`. What happens if your prompt tells Gemini to answer `at rest`?"
 **Expect:** the words wouldn't match. Use the same words in the prompt as in the code. (The `TODO STATES` list also forces the four exact values.)
 
 **Say:** "Two more tips. Don't use double quotes inside the prompt, because it sits inside JSON. And keep your first version simple. We write prompts like code: test, find the mistake, change one sentence, test again."
 
-**Students do:** fill in "Plan Your Prompt" on the handout, then type it into `TODO PROMPT`.
+**Students do:** write one sentence for each of the five parts, then type them into `TODO PROMPT`.
 
 **Ask:** "`TODO STATES` is a list of the only four values `state` is allowed to be. Why limit Gemini like that?"
 **Expect:** so the firmware always gets a value it knows. Otherwise Gemini might answer "jogging" or "Resting." and the `if` statements wouldn't match.
@@ -187,13 +186,13 @@ const char* EVENT_NAME = "pulsecheck";
 
 **Show:** `data/fitbit_windows.csv` open in a spreadsheet, rows A to E. Then the same numbers in `src/fitbit_data.h`.
 
-**Say:** "There are five datasets, A to E. Each one is ten minutes of a real person's heart rate and steps, one reading per minute. One is resting, one is walking, one is a workout, one is sleep, and one is something a watch should worry about. I'm not telling you which is which. Before you press anything, look at the numbers and write your own guess on the handout, question 1."
+**Say:** "There are five datasets, A to E. Each one is ten minutes of a real person's heart rate and steps, one reading per minute. One is resting, one is walking, one is a workout, one is sleep, and one is something a watch should worry about. I'm not telling you which is which. Before you press anything, look at the numbers and write down your own guess for each one."
 
-**Students do (3 minutes):** guess A to E on the handout.
+**Students do (3 minutes):** write down a guess for A to E.
 
 **Say:** "Now press the button once per dataset. Wait ten seconds between presses. Copy Gemini's state, alert, and msg from the serial monitor into the table."
 
-**Students do (5 minutes):** run A to E, fill in handout questions 2 to 5.
+**Students do (5 minutes):** run A to E and write down Gemini's `state`, `alert`, and `msg` for each one.
 
 **Ask** (when most pairs are done): "Which dataset was the easiest to guess, and why?"
 **Expect:** E. Heart rate in the 150s and about 170 steps a minute is clearly running. A is also easy: about 100 steps a minute is a walk.
@@ -233,7 +232,7 @@ hr_bpm=[70,68,66,68,65,68,144,143,143,138] steps_per_min=[0,0,0,0,0,0,0,0,0,0]
 
 **Say:** "So the guarantee doesn't come from the model. It comes from a few lines of plain code on the Photon. If the average heart rate of the last quarter of the window is 30 or more above the first half, and the person is still, raise the alert. It doesn't matter what Gemini says. Did you notice the LED blinked red on C even when Gemini said workout? That was this rule."
 
-**Ask:** "Handout question 6. What's the real average heart rate of E, and did Gemini's msg match?"
+**Ask:** "Work out the real average heart rate of E. Did Gemini's msg match?"
 **Expect:** 156.2 bpm. Gemini's number is often close but not exact. Language models are not calculators.
 
 ## 8. Check Part 1 (1:05 to 1:08)
@@ -273,13 +272,13 @@ hr_bpm=[70,68,66,68,65,68,144,143,143,138] steps_per_min=[0,0,0,0,0,0,0,0,0,0]
 const int PART = 1;
 ```
 
-**Say:** "Change `PART` to 2 and flash. The button now sends three new datasets, F, G, and H. All three have zero steps the whole time. Do handout question 8 first: guess G from heart rate and steps only, then look at its METs."
+**Say:** "Change `PART` to 2 and flash. The button now sends three new datasets, F, G, and H. All three have zero steps the whole time. First guess G from heart rate and steps only. Then look at its calories, intensity, and METs."
 
-**Students do (3 minutes):** set `PART = 2`, flash, handout questions 7 and 8.
+**Students do (3 minutes):** set `PART = 2`, flash, and guess F, G, and H.
 
 **Say:** "Now run F, G, H, but don't change your prompt yet. Write down what Gemini says. Then update your prompt so Gemini knows what the four new signals mean, and run all three again."
 
-**Students do (9 minutes):** handout questions 9 and 10.
+**Students do (9 minutes):** run F, G, H with the old prompt, update the prompt, run them again, and write down both sets of answers.
 
 What to expect (confirm against your own run before class):
 
@@ -320,16 +319,16 @@ What to expect (confirm against your own run before class):
 
 **Say:** "That's the idea to take with you for any project that uses AI. Let the model interpret the data. Keep the safety checks in plain code. And one more thing: PulseCheck is not a medical device. Don't send your real health data to a free-tier AI service."
 
-**Ask:** "Handout question 14. What other signal would help, and with which dataset?"
+**Ask:** "What other signal would help, and with which dataset?"
 **Expect:** heart rate variability, skin temperature, blood oxygen, breathing rate, or time of day (which would help tell B from D).
 
-**Students do:** finish the handout and turn it in. Leave the circuit built if you plan to use it again.
+**Students do:** leave the circuit built if you plan to use it again.
 
 ## If You Run Short on Time
 
-- **Cut first:** handout question 6 (the average heart rate). Mention it in one sentence instead
+- **Cut first:** the average heart rate question in segment 7. Mention it in one sentence instead
 - **Cut next:** the "before" run in segment 9. Have students update the prompt right away and run F to H once
-- **If setup runs long:** do Part 2 as a demo on your own Photon and have students fill in the handout from your serial monitor
+- **If setup runs long:** do Part 2 as a demo on your own Photon and have students write down the answers from your serial monitor
 - **Do not cut:** segment 7. Dataset C and the safety rule are the point of the lesson
 
 ## Full Answer Key
@@ -347,27 +346,7 @@ What to expect (confirm against your own run before class):
 
 Data: Furberg, R., Brinton, J., Keating, M., & Ortiz, A. (2016). *Crowd-sourced Fitbit datasets 03.12.2016-05.12.2016*. Zenodo. [doi.org/10.5281/zenodo.53894](https://doi.org/10.5281/zenodo.53894) (CC BY 4.0)
 
-## Handout Answers
-
-| Where | Answer |
-|-------|--------|
-| Plan Your Prompt | e.g. Role: You are the analysis engine for a fitness tracker. Input: heart rate in beats per minute and steps per minute, one value per minute. Choices: exactly one of sleep, resting, walking, workout. Rules: alert only if the heart rate is concerning for the activity. Output: msg is a friendly note of at most 40 characters. |
-| Create the Webhook: if the LED turns magenta | White then magenta after 20 s: no webhook, or its event name is not pulsecheck. Magenta right away: Gemini rejected the request, so open the webhook in the console and read the error (400 = key header or body, 404 = model name, 429 = quota) |
-| Part 1 table | A walking false / B sleep false / C resting true (safety rule fires) / D resting false / E workout false |
-| Question 3 | C |
-| Question 4 | Most often C: a high heart rate looks like a workout unless the prompt says to decide from steps first. B vs D can also be mixed up: both have zero steps |
-| Question 5 | e.g. "Decide the state from the steps first: if steps stay near zero, the state is resting or sleep..." |
-| Question 6 | 1562 / 10 = 156.2 bpm; Often close but not exact: language models are not reliable at math |
-| Question 7 | sitting still; very hard exercise; very active |
-| Question 8 | a dangerous heart rate spike at rest: about 190 bpm with no steps; 10 to 19 calories a minute, intensity 3, and METs of 9 to 14 all mean hard exercise, like cycling, so it's a workout |
-| Part 2 table | F sleep true (safety rule fires) / G workout false / H resting true (safety rule fires) |
-| Question 10 | e.g. "calories_per_min is about 1 at rest. intensity is 0 sedentary to 3 very active. mets is energy use: 1.0 is still, 3+ is exercise even with zero steps. sleep says asleep, restless, or awake each minute; if mostly asleep, the state is sleep." |
-| Question 11 | Steps miss exercise like cycling or rowing. A rule based on steps could raise a false alarm during a bike ride; METs show the body is working |
-| Question 12 | C, F, H |
-| Question 13 | No. A better prompt makes the right answer more likely but is not a guarantee. Let the model interpret the data; keep safety checks in plain code you can test |
-| Question 14 | e.g. heart rate variability, skin temperature, blood oxygen, breathing rate, time of day (would help tell B sleep from D resting) |
-
-Notes on the datasets:
+## Notes on the Datasets
 
 - B: 42 bpm while asleep is normal for a fit person
 - C is a real resting window with 75 bpm added to the last 4 minutes, to make the spike obvious. The other seven are unedited

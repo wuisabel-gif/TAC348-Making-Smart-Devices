@@ -22,7 +22,6 @@ title: PulseCheck - Smart Devices and AI
   - **Part 1**: five mystery datasets with heart rate and steps
   - **Part 2**: three harder datasets with four more signals: calories, intensity, METs, and sleep
 - For each dataset, you write down what Gemini says. Your instructor goes over the answers at the end of each part
-- Handout: [PulseCheck Student Handout](lecture_pulsecheck_handout.html)
 
 ## How It Works
 
@@ -100,7 +99,7 @@ Sending dataset A
 Dataset A | Gemini: state=walking alert=0 msg="Steady walk, avg 100 bpm"
 ```
 
-- Write Gemini's answer for each dataset on the handout. Your instructor goes over the answers at the end of each part
+- Write down Gemini's `state` and `alert` for each dataset. Your instructor goes over the answers at the end of each part
 - Tip: before you press the button, look at the table and make your own guess. The full numbers are in `data/fitbit_windows.csv`
 
 ## Gemini's Answer
@@ -264,7 +263,7 @@ Dataset A | Gemini: state=walking alert=0 msg="Steady walk, avg 100 bpm"
 - In `pulsecheck.cpp`:
   - **TODO 1**: show Gemini's answer on the RGB LED in `onGeminiReply()` with `changeLedColor(r, g, b)`
   - **TODO 2** (optional): write your own `safetyRule()`
-- Run datasets A to E and fill in Part 1 of the handout
+- Run datasets A to E and write down Gemini's answer for each one
 
 ## When Gemini Gets It Wrong
 
@@ -331,7 +330,7 @@ hr_bpm=[62,62,...] steps_per_min=[0,0,...] calories_per_min=[0.9,0.9,...] intens
   - Part 1: still = steps under 10 per minute
   - Part 2: still = METs at 1.5 or below
   - Steps miss exercise like cycling. METs do not
-- Run datasets F to H and fill in Part 2 of the handout
+- Run datasets F to H and write down Gemini's answer for each one
 
 ## Free Tier Limits
 

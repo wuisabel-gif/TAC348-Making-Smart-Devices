@@ -74,7 +74,7 @@ Open this folder in Particle Workbench, configure it for your Photon 2, and flas
   Dataset A | Gemini: state=walking alert=0 msg="Steady walk, avg 100 bpm"
   ```
 
-* Write Gemini's answer for each dataset on the handout. Your instructor goes over the answers at the end of each part.
+* Write down Gemini's `state` and `alert` for each dataset. Your instructor goes over the answers at the end of each part.
 
 ## 6. Run Part 2
 
@@ -86,7 +86,7 @@ Open this folder in Particle Workbench, configure it for your Photon 2, and flas
    * `sleep`: `awake`, `asleep`, or `restless` for each minute
 3. Update your prompt in the Console (**Edit**, then **Extra settings > JSON data**) so Gemini knows what the four new signals mean.
 4. The safety rule is ready-made: in Part 2, `defaultSafetyRule()` checks METs instead of steps.
-5. Write Gemini's answers on the handout. Your instructor goes over the answers.
+5. Write down Gemini's answer for each dataset. Your instructor goes over the answers.
 
 | LED | Meaning |
 |-----|---------|
